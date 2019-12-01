@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>XE Currency</title>
+    <style type="text/css">
+      body{
+        background-image: url(http://wallpapers.net/web/wallpapers/free-download-world-currency-notes-hd-wallpaper-for-desktop-mobiles/thumbnail/lg.jpg);
+        background-size: 2000px 645px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="" id="root">
+	    <h1> Currency Converter </h1>
+		<h4> From: </h4>
+    </div>
+    <script>
+      const getExchangeRate = async (fromCurrency, toCurrency) => {
+      try {
+        //get data
+        const response = await fetch('http://www.apilayer.net/api/live?access_key=075d15d60a95b06528ad8d5812e3d35e&format=1');
+        // console.log(response);
+
+        // convert to object
+        const rates = await response.json()
+
+        // get the currency rates
+        const rate = await rates.quotes;
+        // console.log(rate);
+        // console.log(rate[usd+toCurrency]);
+
+
+        const exchangeRate = rate['USD'+toCurrency] / rate['USD'+fromCurrency];;
+
+        return exchangeRate;
+      }
+      catch (error) {
+        throw new Error(`Unable to get currency ${fromCurrency} and  ${toCurrency}`);
+      }
+    };
+
+    const getCountries = async () => {
+      try {
+        const response = await fetch(`http://www.apilayer.net/api/list?access_key=075d15d60a95b06528ad8d5812e3d35e`);
+        const data = await response.json();
+        // console.log(data.currencies);
+        const countries = await data.currencies;
+
+        return countries;
+      }
+      catch (error) {
+        throw new Error(`Unable to get countries that use ${currencyCode}`);
+      }
+    };
+
+    const convertCurrency = async (fromCurrency, toCurrency, amount,countries) => {
+      const exchangeRate = await getExchangeRate(fromCurrency, toCurrency);
+      const convertedAmount = (amount * exchangeRate);
+      alert( `${amount} ${fromCurrency}  =  ${convertedAmount} ${toCurrency}`);
+    }
+
+    const calculate = async (from,to,amount,countries,root) => {
+      convertCurrency(from, to, amount,countries)
+        .then((message) => {
+          console.log(message);
+        })
+        .catch((error) => {
+          console.log(error.message);
+      });
+    }
+
+    const createUI = async () => {
+      const rootdiv = document.querySelector('#root');
+      const countries = await getCountries();
+      createOptions(rootdiv,countries,'from_currency');
+      createOptions(rootdiv,countries,'to_currency');
+
+      const h4 = document.createElement('h4');
+      h4.innerText = 'Amount:';
+      root.appendChild(h4);
+
+      let amt = document.createElement('INPUT');
+      amt.setAttribute('id','amount');
+      amt.setAttribute('type','number');
+      amt.setAttribute('value',1);
+      root.appendChild(amt);
+
+      let btn = document.createElement('BUTTON');
+      btn.setAttribute('id','btn');
+      btn.innerText = 'Convert';
+
+      btn.addEventListener("click", function(event) {
+        let fromCurrency = document.querySelector('#from_currency').value;
+        let toCurrency = document.querySelector('#to_currency').value;
+        let amount = document.querySelector('#amount').value;
+        calculate(fromCurrency,toCurrency,amount,countries,rootdiv);
+      });
+      root.appendChild(btn);
+
+
+    }
+
+      const h4 = document.createElement('h4');
+      h4.innerText = 'To:';
+    const createOptions = (root, obj, name) => {
+      const sel = document.createElement('SELECT');
+      sel.setAttribute('id',name);
+      sel.setAttribute('name',name);
+
+      let opt = document.createElement('OPTION');
+      opt.setAttribute('value','');
+      opt.innerText = 'Please Select Currency';
+      sel.appendChild(opt);
+
+      Object.entries(obj).forEach(([key, value]) => {
+        let opt = document.createElement('OPTION');
+        opt.setAttribute('value',`${key}`);
+        opt.innerText = `${key} - ${value}`;
+        sel.appendChild(opt);
+      });
+      root.appendChild(h4);
+      root.appendChild(sel);
+    }
+
+    createUI();
+
+    </script>
+  </body>
+</html>
