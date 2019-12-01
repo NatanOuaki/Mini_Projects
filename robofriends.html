@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> RoboFriends</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding:0;
+		}
+		body{
+			background-color: #6656CD ;
+		}
+		.header{
+			background-color: #6ADF82;
+			height: 60px;
+			margin:0;
+		}
+		h1{
+			margin: 0;
+			font-family: 'sega';
+			font-size: 40px;
+			float: left;
+			margin-left: 5px;
+			margin-top: 5px;
+		}
+		.searchbar{
+			width: 50%;
+			height: 20px;
+			border: 10px lightblue;
+			float: left;
+			margin-left: 30px; 
+			margin-top: 15px;
+
+		}
+		.root{
+			display: flex;
+			flex-wrap: wrap;
+			flex-direction: column;
+			max-width: 960px; 
+		}
+		.card{
+			margin: 50px;
+			border: 1px #4FC1C5;
+			background-color: #4FC1C5;
+			width: 400px;
+			height: 500px;
+			border-radius: 100px;
+			text-align:center;
+			margin-top: 20px;
+		}
+		img{
+			border:#303952;
+			border-radius: 100%;
+			background-color:#303952;
+			margin-top: 50px;
+		}
+
+		h5{
+			font-family: 'helvetica';
+			font-size: 25px;
+			padding-top: 10px;
+		}
+		#email{
+			font-family: 'helvetica';
+			font-size: 15px;
+		}
+	</style>
+</head>
+<body>
+	<div id="root"></div>
+	<script type="text/javascript">
+		const robots = [
+		  {
+		    id: 1,
+		    name: 'Leanne Graham',
+		    username: 'Bret',
+		    email: 'Sincere@april.biz',
+		    image: 'https://robohash.org/1?200x200'
+		  },
+		  {
+		    id: 2,
+		    name: 'Ervin Howell',
+		    username: 'Antonette',
+		    email: 'Shanna@melissa.tv',
+		    image: 'https://robohash.org/2?200x200'
+		  },
+		  {
+		    id: 3,
+		    name: 'Clementine Bauch',
+		    username: 'Samantha',
+		    email: 'Nathan@yesenia.net',
+		    image: 'https://robohash.org/3?200x200'
+		  },
+		  {
+		    id: 4,
+		    name: 'Patricia Lebsack',
+		    username: 'Karianne',
+		    email: 'Julianne.OConner@kory.org',
+		    image: 'https://robohash.org/4?200x200'
+		  },
+		  {
+		    id: 5,
+		    name: 'Chelsey Dietrich',
+		    username: 'Kamren',
+		    email: 'Lucio_Hettinger@annie.ca',
+		    image: 'https://robohash.org/5?200x200'
+		  },
+		  {
+		    id: 6,
+		    name: 'Mrs. Dennis Schulist',
+		    username: 'Leopoldo_Corkery',
+		    email: 'Karley_Dach@jasper.info',
+		    image: 'https://robohash.org/6?200x200'
+		  },
+		  {
+		    id: 7,
+		    name: 'Kurtis Weissnat',
+		    username: 'Elwyn.Skiles',
+		    email: 'Telly.Hoeger@billy.biz',
+		    image: 'https://robohash.org/7?200x200'
+		  },
+		  {
+		    id: 8,
+		    name: 'Nicholas Runolfsdottir V',
+		    username: 'Maxime_Nienow',
+		    email: 'Sherwood@rosamond.me',
+		    image: 'https://robohash.org/8?200x200'
+		  },
+		  {
+		    id: 9,
+		    name: 'Glenna Reichert',
+		    username: 'Delphine',
+		    email: 'Chaim_McDermott@dana.io',
+		    image:'https://robohash.org/9?200x200'
+		  },
+		  {
+		    id: 10,
+		    name: 'Clementina DuBuque',
+		    username: 'Moriah.Stanton',
+		    email: 'Rey.Padberg@karina.biz',
+		    image:'https://robohash.org/10?200x200'
+		  }
+		  ];
+
+		var div = document.getElementById('root');
+		var navbar = document.createElement("NAV");
+		navbar.setAttribute("class", "header");
+		var h1 = document.createElement('h1');
+		h1.innerText = 'robofriends'
+		var searchbar = document.createElement("INPUT");
+		searchbar.setAttribute("type", "search");
+		searchbar.setAttribute("placeholder", "Search Robots...")
+		searchbar.setAttribute("class", "searchbar");
+		searchbar.setAttribute("id", "searchbar");
+		searchbar.setAttribute("onkeyup", "myFunction()")
+		div.appendChild(navbar)
+		navbar.appendChild(h1)
+		navbar.appendChild(searchbar)
+
+
+		for(i=0; i<robots.length; i++){
+		  var card = document.createElement('div');
+		  card.setAttribute("class", "card");
+		  card.setAttribute("id", "card"+i);
+		  div.appendChild(card);
+		  var text = document.createElement('h5');
+		  text.innerText= robots[i].name
+		  card.appendChild(text);
+		  var email = document.createElement('EMAIL');
+		  email.setAttribute("type", "email");
+		  email.setAttribute("id", "email");
+		  email.setAttribute("class", "email"+i);
+		  email.setAttribute("href","mailito."+ robots[i].email)
+		  email.innerText = "Email: " + robots[i].email
+		  card.appendChild(email);
+		  var image = document.createElement('IMG');
+		  image.setAttribute("class", "img"+i);
+		  image.setAttribute("src", robots[i].image);
+		  card.appendChild(image);
+		}
+
+
+		function myFunction(){
+		  var x = document.getElementById("searchbar").value;
+		  for (var i =0; i<robots.length; i++) {
+		    if (robots[i].name.includes(x)){
+		    }
+		  }
+		}
+	</script>
+</body>
+</html>
