@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		body{
+			background-image: url(http://i.giphy.com/media/TxVVB6PfWMjE4/200.webp);
+			background-size: 200px 200px ;
+		}
+
+		#Star_Wars_Logo{
+			width: 350px;
+			height: auto;
+			margin-left: 440px;
+		}
+
+		#box{
+		  	border: 2px solid yellow;
+			border-radius: 10%;
+			margin-left: 265px;
+			height: 300px;
+			width: 700px;
+			text-align: center;
+			font-size: 200px;
+			color:white;
+		}
+
+		#find_button{
+			border: 2px solid yellow;
+			background-color: #DDDDDD;
+			border-radius: 10%;
+			margin-left: 520px;
+			margin-top: 10px;
+			text-align: center;
+			height: 30px;
+			width: 200px;
+			font-size: 15px;
+		}
+
+		h1{
+			color: white;
+			font-size: 35px;
+		}
+
+		p{
+			color: white;
+			font-size: 20px;
+		}
+
+		#loadingImage{
+			width: 120px;
+			height: 120px;
+		}
+
+	</style>
+</head>
+<body>
+	<audio id="myAudio" autoplay="true" loop="true">
+	  <source src="http://soundfxcenter.com/movies/star-wars/8d82b5_Star_Wars_Main_Theme_Song.mp3" type="audio/mp3">
+	</audio>
+
+	<img id= "Star_Wars_Logo"src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Star_Wars_Logo..png">
+	<div id= "box"> 
+		<img id="loadingImage" src="http://www.complicite.org/_images/loading.gif" hidden="true">
+		<h1 id= "name"> </h1>
+		<p id= "height"> </p>
+		<p id= "gender"> </p>
+		<p id= "birthYear"> </p>
+		<p id= "homeWorld"> </p>
+	</div>
+	<button id= "find_button" onclick="getData()">Find Someone</button>
+</body>
+	<script type="text/javascript">
+		const getData = async () => {
+		    loading();
+		  try {
+		    //get data
+		    i = Math.floor((Math.random() * 88) + 1);
+		    const response = await fetch(`https://swapi.co/api/people/${i}/`);
+		    const data = await response.json();
+		    const name =  await data.name;
+		    const height =  await data.height;
+		    const gender =  await data.gender;
+		    const birthYear =  await data.birth_year;
+		    const  planets =  await data.homeworld;
+		    const planetName = await fetch(planets);
+		    const objectWorld = await planetName.json();
+		    const homeWorld = await objectWorld.name;
+
+		    var text = document.getElementById('name');
+		    text.innerText = name;
+
+		    var size = document.getElementById('height');
+		    size.innerText = `Height: ${height}`;
+
+		    var type = document.getElementById('gender');
+		    type.innerText = `Gender: ${gender}`;
+
+		    var birth = document.getElementById('birthYear');
+		    birth.innerText = `Birth Year: ${birthYear}`;;
+
+		    var world = document.getElementById('homeWorld');
+		    world.innerText = `Home World: ${homeWorld}`;;
+		    document.getElementById("loadingImage").setAttribute("hidden","true");
+
+		    
+		  }
+		  catch (error) {
+		    var errorMessage = document.getElementById('name');
+		    errorMessage.innerText = `Oh no! That person isn't available...`;;
+		  }
+
+		  };
+
+
+		  const loading = function() {
+		    var text = document.getElementById('name');
+		    text.innerText = "";
+
+		    var size = document.getElementById('height');
+		    size.innerText = "";
+
+		    var type = document.getElementById('gender');
+		    type.innerText = "";
+
+		    var birth = document.getElementById('birthYear');
+		    birth.innerText = "";
+
+		    var loadingMessage = document.getElementById('homeWorld');
+		    loadingMessage.innerText = 'Loading...';;
+
+		    var loadingImage = document.getElementById('loadingImage');
+		    loadingImage.removeAttribute("hidden");
+		}
+
+
+	</script>
+</html>
