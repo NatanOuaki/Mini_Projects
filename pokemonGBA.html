@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mini Project 5</title>
+  <style type="text/css">
+    body{
+background-image: url("https://i.ibb.co/cX0CPCP/gb.png");
+}
+
+.container{
+      display: grid;
+    grid-template-columns: auto auto auto;
+  justify-content: center;
+      padding-top: 168px;
+    padding-left: 252px;
+}
+.container .card {
+    width: 280px;
+    height: 340px;
+    border-radius: 15px;
+    text-align: left;
+    color:black;
+    font-family: 'Pokemon GB';
+    font-size: 12px;
+}
+#name{
+  color:black;
+  text-align: left;
+  font-family: 'Pokemon GB';
+  font-size: 20px;
+}
+.image{
+  padding-top: 38px;
+  margin-right: 85px;
+}
+
+#type{
+  padding-bottom: 12px;
+  padding-top: 12px;
+}
+button{
+  border-radius: 100%;
+  height: 60px;
+  width: 60px;
+  margin-left: 84px;
+  margin-top: 40px;
+  background-color: Transparent;
+  border:none;
+}
+#logo{
+  text-align: center;
+  width: 25%;
+  height: auto;
+}
+#poke{
+  text-align: center;
+
+}
+  </style>
+</head>
+<body>
+  <div id="poke">
+    <img src="https://i.ibb.co/87P3jzJ/logo.png" id="logo">
+  </div>
+  <div class="container">
+    <div class="image">
+      <img id="image">
+    </div>
+    <div class="card">
+      <h1 id="name"></h1>
+      <p id="id"></p>
+      <p id="type"></p>
+      <p id="height"></p>
+      <p id="weight"></p>
+    </div>
+    <button id="button" class="btn"></button>
+  </div>
+<script type="text/javascript">
+  
+let button = document.getElementById('button');
+let name = document.getElementById('name');
+let height = document.getElementById('height');
+let weight = document.getElementById('weight');
+let type = document.getElementById('type');
+let id = document.getElementById('id');
+let container = document.querySelector('#container');
+let img = document.getElementById('image');
+
+button.addEventListener('click', api);
+
+function api() {
+  loadApi()
+  let random = Math.floor((Math.random() * 400) + 1)
+  let swapi = `https://pokeapi.co/api/v2/pokemon/${random}/`
+  fetch(swapi).then(response => response.json())
+  .then(results => {
+     showApi(results)
+  })
+  .catch ( () => {
+  console.log('Error on URL');
+  })
+}
+
+function showApi(results){
+  img.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+results.id+'.png';
+  name.innerHTML = results.name[0].toUpperCase() + results.name.slice(1);
+  height.innerHTML = "Height : " + results.height + "'";
+  weight.innerHTML = "Weight : " + results.weight + "lbs";
+  type.innerHTML = "Type : " + results.types[0].type.name;
+  id.innerHTML = "Pokedex ID " + results.id;
+}
+
+function loadApi(){
+  name.innerHTML = '';
+  height.innerHTML = '';
+  weight.innerHTML = '';
+  type.innerHTML = '';
+  id.innerHTML = '';
+}
+
+api()
+</script>
+</body>
+</html>
